@@ -1,6 +1,7 @@
 package vn.edu.softwaretesting.tests;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.math.BigDecimal;
@@ -10,7 +11,6 @@ import java.util.List;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
@@ -52,17 +52,11 @@ class SortTest extends WebTestBase {
 
     // ---------- problem_user: cùng các bước như standard_user ----------
 
-    // Thứ tự mặc định của trang đã là A->Z nên ca này PASS dù sort không chạy.
-    @Test
-    @DisplayName("TC-SORT-01 (problem_user): sort by name, option=az")
-    void problemUserSortByNameAToZ() {
-        assertNamesSorted("TC-SORT-01 (problem_user)", loginAs("problem_user"), "az", true);
-    }
-
     // Lỗi đã biết BUG-04: problem_user chọn kiểu sắp xếp nhưng danh sách không đổi.
     @ParameterizedTest(name = "{0} (problem_user) [BUG-04]: sort by {1}, option={2}")
     @Tag("known-bug")
     @CsvSource({
+            "TC-SORT-01, name,  az,   true",
             "TC-SORT-02, name,  za,   false",
             "TC-SORT-03, price, lohi, true",
             "TC-SORT-04, price, hilo, false"
@@ -90,6 +84,14 @@ class SortTest extends WebTestBase {
 
     private static void assertNamesSorted(String id, InventoryPage page,
             String option, boolean ascending) {
+        if (option.equals("az")) {
+            // Trang mặc định đã là A->Z: chọn Z->A trước để danh sách rời khỏi
+            // thứ tự A->Z, nếu không thì bước chọn A->Z không chứng minh được gì.
+            List<String> initial = page.getProductNames();
+            List<String> afterZa = page.sortBy("za").getProductNames();
+            assertNotEquals(initial, afterZa,
+                    () -> id + ": precondition step Z->A did not change the list");
+        }
         List<String> actual = page.sortBy(option).getProductNames();
         List<String> expected = new ArrayList<>(actual);
         expected.sort(ascending ? Comparator.naturalOrder() : Comparator.reverseOrder());
