@@ -17,11 +17,6 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-/**
- * Bonus 7.7 - Data-driven mức 2:
- * Bộ thực thi kịch bản kiểm thử đọc toàn bộ URL, locator, action và dữ liệu từ tệp CSV
- * (cột: page, locator, action, value). Đổi sang website khác chỉ cần sửa tệp cấu hình, không sửa Java.
- */
 public final class ConfigDrivenFlowRunner {
 
     private final WebDriver driver;

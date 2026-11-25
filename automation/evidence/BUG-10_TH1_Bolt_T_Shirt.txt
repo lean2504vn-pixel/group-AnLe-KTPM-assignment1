@@ -1,0 +1,11 @@
+[BUG-10] TH1_Bolt_T_Shirt - Add sai san pham tu Detail
+San pham click tai Inventory: Sauce Labs Bolt T-Shirt
+Ten hien thi tai Detail: Sauce Labs Onesie
+San pham khac can doi chieu: Sauce Labs Onesie
+Badge truoc/sau Add: 0 / 1
+Nut Detail truoc/sau Add: ADD / REMOVE
+Nut Inventory san pham da chon: ADD -> ADD
+Nut Inventory san pham khac: ADD -> REMOVE
+So san pham thuc te trong Cart: 1
+Cart co san pham da chon: false
+Cart co san pham khac: true

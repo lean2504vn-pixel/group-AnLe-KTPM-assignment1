@@ -1,0 +1,15 @@
+[BUG-06] KIEM TRA DONG BO GIO HANG - problem_user
+San pham click tai Inventory: Sauce Labs Fleece Jacket
+URL chi tiet: https://www.saucedemo.com/inventory-item.html?id=6
+Ten chi tiet thuc te: ITEM NOT FOUND
+Badge truoc Add: 0
+Nut Inventory truoc Add: ADD
+Nut Detail truoc Add: ADD
+Badge sau Add o Detail: 1
+Nut Detail sau Add: REMOVE
+Badge khi quay lai Inventory: 1
+Nut Fleece Jacket tai Inventory: ADD
+Badge tren cart.html: 1
+So dong san pham thuc te trong Cart: 0
+Fleece Jacket co trong Cart: false
+Neu badge=1 va so dong Cart=0: loi dong bo da duoc tai hien.

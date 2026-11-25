@@ -50,6 +50,10 @@ public final class LoginPage {
         String message = accepted
                 ? "Login accepted"
                 : driver.findElement(ERROR).getText();
+        try {
+            new WebDriverWait(driver, Duration.ofSeconds(2)).until(d -> false);
+        } catch (TimeoutException ignored) {
+        }
         return new LoginResult(accepted, driver.getCurrentUrl(), message);
     }
 

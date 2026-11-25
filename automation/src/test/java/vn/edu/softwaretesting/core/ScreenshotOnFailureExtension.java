@@ -16,10 +16,6 @@ import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 
-/**
- * Bonus 7.7: JUnit 5 extension (TestWatcher & AfterTestExecutionCallback)
- * tự động chụp ảnh màn hình khi test FAIL trước khi trình duyệt đóng ở @AfterEach.
- */
 public class ScreenshotOnFailureExtension implements AfterTestExecutionCallback, TestWatcher {
 
     private static final DateTimeFormatter TS_FORMAT = DateTimeFormatter.ofPattern("yyyyMMdd_HHmmss");
@@ -52,7 +48,8 @@ public class ScreenshotOnFailureExtension implements AfterTestExecutionCallback,
 
             Path tempFile = screenshotDriver.getScreenshotAs(OutputType.FILE).toPath();
             Files.copy(tempFile, destination, StandardCopyOption.REPLACE_EXISTING);
-            System.out.println("[ScreenshotOnFailureExtension] Saved failure screenshot: " + destination.toAbsolutePath());
+            System.out.println(
+                    "[ScreenshotOnFailureExtension] Saved failure screenshot: " + destination.toAbsolutePath());
         } catch (IOException | RuntimeException e) {
             System.err.println("[ScreenshotOnFailureExtension] Could not capture screenshot: " + e.getMessage());
         }

@@ -191,7 +191,6 @@ class CartTest extends WebTestBase {
 
     // ===== TEST CHO problem_user: phat hien BUG =====
 
-
     // Dùng riêng cho extension để không phải sửa lớp WebTestBase.
     WebDriver evidenceDriver() {
         return driver;
@@ -220,7 +219,8 @@ class CartTest extends WebTestBase {
     @DisplayName("[BUG-06] Badge, Inventory va Cart phai dong bo sau khi mo Fleece Jacket")
     void bug06_fleeceDetailAndCartMustAgree() {
         // Mo bang link tren Inventory (giong thao tac thu cong, co the dan den id=6).
-        // KHONG assert ten trang chi tiet o day: loi duong dan/ITEM NOT FOUND la BUG-09.
+        // KHONG assert ten trang chi tiet o day: loi duong dan/ITEM NOT FOUND la
+        // BUG-09.
         int badgeBefore = page.badgeCount();
         String inventoryButtonBefore = page.buttonStateAtInventory(FLEECE);
         page.openDetail(FLEECE);
@@ -298,7 +298,8 @@ class CartTest extends WebTestBase {
     }
 
     // BUG-10: Khi Add tai Detail, problem_user co the them SAI san pham vao Cart.
-    // Hai test dung chung logic nhung tach rieng de co report va screenshot cho tung truong hop.
+    // Hai test dung chung logic nhung tach rieng de co report va screenshot cho
+    // tung truong hop.
     @Test
     @Tag("known-bug")
     @DisplayName("[BUG-10][TH1] Add Bolt T-Shirt tai Detail khong duoc them Onesie")
@@ -314,9 +315,12 @@ class CartTest extends WebTestBase {
     }
 
     /**
-     * Di theo dung thao tac thu cong: click TEN san pham tren Inventory -> Detail -> Add.
-     * Khong mo URL theo id vi nhu vay co the bo qua loi xay ra khi nguoi dung click ten.
-     * Chi assert sau khi da doc trang thai Inventory va Cart de ghi nhan du bang chung.
+     * Di theo dung thao tac thu cong: click TEN san pham tren Inventory -> Detail
+     * -> Add.
+     * Khong mo URL theo id vi nhu vay co the bo qua loi xay ra khi nguoi dung click
+     * ten.
+     * Chi assert sau khi da doc trang thai Inventory va Cart de ghi nhan du bang
+     * chung.
      */
     private void verifyBug10DetailAddsCorrectProduct(
             String chosenProduct, String unexpectedlyAddedProduct, String caseId) {
@@ -374,7 +378,8 @@ class CartTest extends WebTestBase {
         }
 
         // Expected: chi san pham da chon duoc them; san pham khac khong bi tac dong.
-        // Khi bug xuat hien, assertAll giup bao cao dong thoi ca trang thai nut va Cart.
+        // Khi bug xuat hien, assertAll giup bao cao dong thoi ca trang thai nut va
+        // Cart.
         assertAll("[BUG-10] " + caseId + ": Add tai Detail phai dung san pham",
                 () -> assertEquals(badgeBefore + 1, badgeAfter,
                         "Badge phai tang dung 1 sau khi Add"),
@@ -431,31 +436,4 @@ class CartTest extends WebTestBase {
                 () -> assertFalse(detail.name().toUpperCase().contains("NOT FOUND")));
     }
 
-    /** Chụp ảnh cả Assertion FAIL và Selenium ERROR trước @AfterEach quit driver. */
-    public static class FailureScreenshot implements AfterTestExecutionCallback {
-        @Override
-        public void afterTestExecution(ExtensionContext context) throws Exception {
-            if (context.getExecutionException().isEmpty()) return;
-            if (!context.getTags().contains("known-bug")) return;
-            var instance = context.getRequiredTestInstance();
-            if (!(instance instanceof CartTest test)) return;
-            if (!(test.evidenceDriver() instanceof TakesScreenshot screenshot)) return;
-
-            String method = context.getRequiredTestMethod().getName();
-            String id = method.startsWith("bug02") ? "BUG-02"
-                    : method.startsWith("bug06") ? "BUG-06"
-                    : method.startsWith("bug10") ? "BUG-10"
-                    : method.startsWith("bug07") ? "BUG-07"
-                    : method.startsWith("bug08") ? "BUG-08" : "BUG-09";
-            Path folder = Path.of("evidence");
-            Files.createDirectories(folder);
-            Path output = folder.resolve(id + "_" + method + ".png");
-            try {
-                Files.write(output, screenshot.getScreenshotAs(OutputType.BYTES));
-                System.out.println("Evidence saved: " + output.toAbsolutePath());
-            } catch (Exception e) {
-                System.err.println("Screenshot could not be saved: " + e.getMessage());
-            }
-        }
-    }
 }
