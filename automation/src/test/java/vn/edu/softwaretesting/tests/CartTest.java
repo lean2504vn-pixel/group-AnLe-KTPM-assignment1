@@ -16,15 +16,9 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInfo;
-import org.junit.jupiter.api.extension.AfterTestExecutionCallback;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.junit.jupiter.api.extension.ExtensionContext;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.openqa.selenium.Dimension;
-import org.openqa.selenium.OutputType;
-import org.openqa.selenium.TakesScreenshot;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 
@@ -37,7 +31,6 @@ import vn.edu.softwaretesting.pages.LoginPage;
 @Tag("web")
 @Tag("FR-02")
 @DisplayName("FR-02: Quan ly gio hang")
-@ExtendWith(CartTest.FailureScreenshot.class)
 class CartTest extends WebTestBase {
 
     private static final String BACKPACK = "sauce-labs-backpack";
@@ -190,11 +183,6 @@ class CartTest extends WebTestBase {
     }
 
     // ===== TEST CHO problem_user: phat hien BUG =====
-
-    // Dùng riêng cho extension để không phải sửa lớp WebTestBase.
-    WebDriver evidenceDriver() {
-        return driver;
-    }
 
     @Test
     @Tag("known-bug")
